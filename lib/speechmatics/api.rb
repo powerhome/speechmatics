@@ -38,7 +38,7 @@ module Speechmatics
         raise ArgumentError, "whoops, that isn't a valid http method: #{method}"
       end
 
-      request_path = (conn.path_prefix + '/' + path).gsub(/\/+/, '/')
+      request_path = File.join(conn.path_prefix, path)
 
       response = conn.send(method) do |request|
         case method.to_sym
@@ -61,7 +61,7 @@ module Speechmatics
         end
         a
       }
-      parts.join('/') + '/'
+      parts.join('/')
     end
 
     def list(params={})
