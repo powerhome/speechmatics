@@ -29,11 +29,10 @@ module Speechmatics
       options
     end
 
-    def connection(options={})
+    def new_connection(options={})
       opts = merge_default_options(options)
 
-      @conn ||= Faraday::Connection.new(opts) do |connection|
-
+      Faraday::Connection.new(opts) do |connection|
         if Faraday::VERSION =~ /^0\.7\.(.*)/
           connection.use Faraday::Request::Multipart
           connection.use Faraday::Request::UrlEncoded

@@ -6,6 +6,7 @@ module Speechmatics
     include Connection
 
     attr_reader *Speechmatics::Configuration.keys
+    attr_reader :conn
 
     attr_accessor :current_options
 
@@ -20,6 +21,7 @@ module Speechmatics
 
     def initialize(options={}, &block)
       apply_options(options)
+      @conn = new_connection(options)
       yield(self) if block_given?
     end
 
@@ -36,7 +38,6 @@ module Speechmatics
         raise ArgumentError, "whoops, that isn't a valid http method: #{method}"
       end
 
-      conn = connection((params[:options] || {}).merge(current_options))
       request_path = (conn.path_prefix + '/' + path).gsub(/\/+/, '/')
 
       response = conn.send(method) do |request|
